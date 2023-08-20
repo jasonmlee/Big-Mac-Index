@@ -1,7 +1,6 @@
 import pandas as pd
 from datetime import date, datetime
 import streamlit as st
-import matplotlib.pyplot as plt
 import altair as alt
 import requests
 from bs4 import BeautifulSoup
