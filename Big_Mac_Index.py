@@ -1,6 +1,5 @@
 import pandas as pd
 from datetime import date, datetime
-import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
 import altair as alt
