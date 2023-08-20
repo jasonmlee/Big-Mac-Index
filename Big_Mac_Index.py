@@ -3,7 +3,6 @@ from datetime import date, datetime
 import streamlit as st
 import altair as alt
 import requests
-from bs4 import BeautifulSoup
 
 filename = 'https://raw.githubusercontent.com/jasonmlee/Big-Mac-Index/main/big-mac-full-index.csv'
 CurrencyUrl = 'https://www.iban.com/currency-codes'
