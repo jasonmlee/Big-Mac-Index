@@ -5,6 +5,7 @@ import altair as alt
 import requests
 
 filename = 'https://raw.githubusercontent.com/jasonmlee/Big-Mac-Index/main/big-mac-full-index.csv'
+imagelink = "https://github.com/jasonmlee/Big-Mac-Index/blob/main/Big%20Mac.jpg?raw=true"
 CurrencyUrl = 'https://www.iban.com/currency-codes'
 
 def analyze(filename: str, date: str, base_ccy):
@@ -110,30 +111,43 @@ def get_currency_codes(url: str):
 
   return CurrencyData
 
+def display_webapp():
+  """
+  Uses Streamlit to create a webapp with the data
+  """
 
-st.write("""
-  # Visualizing The Big Mac Index
-  The Big Mac Index was invented in 1986 by The Economist as a lighthearted guide to whether currencies are at their "correct" level. It is based on the theory of purchasing-power parity (PPP), the notion that in the long run exchange rates should move towards the rate that would equalise the prices of an identical basket of goods and services (in this case, a burger) in any two countries.
+  st.title("Visualizing The Big Mac Index")
 
-""")
+  with st.sidebar:
+    st.title("Overview")
 
-currency = st.selectbox(
-    'Base Currency',
-    ('USD', 'CAD', 'CNY', 'GBP', 'JPY'))
+    st.write("""
+    The Big Mac Index was invented in 1986 by The Economist as a lighthearted guide to whether currencies are at their "correct" level.
+    Big Macs from McDonald's can be found all around the world and are used as a measure of purchasing power parity (PPP).
+    Using Big Mac price data collected by The Economist, the implied exchange rate of each currency is calculated and compared against the actual exchange rate to determine how over/undervalued the currency actually is.
+    """)
 
-datelist =  date_list(filename)
+    st.image(imagelink, caption='BigMac')
 
-date = st.selectbox(
-    'Select Date',
-    datelist)
+  currency = st.selectbox(
+      'Select Base Currency',
+      ('USD', 'CAD', 'CNY', 'GBP', 'JPY'))
 
-data = analyze(filename, date, currency)
+  datelist =  date_list(filename)
 
-c = alt.Chart(data).mark_bar().encode(
-    alt.X('currency_code:N', sort='y', title='Currency Code'),
-    alt.Y('pct_over_under_valued', title='Percentage over/under-valued')
-)
+  date = st.selectbox(
+      'Select Date',
+      datelist)
 
+  data = analyze(filename, date, currency)
 
+  c = alt.Chart(data).mark_bar().encode(
+      alt.X('currency_code:N', sort='y', title='Currency Code'),
+      alt.Y('pct_over_under_valued', title='Percentage over/under-valued')
+  )
 
-st.altair_chart(c, use_container_width=True)
+  st.altair_chart(c, use_container_width=True)
+
+  return None
+
+display_webapp()
